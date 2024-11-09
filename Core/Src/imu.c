@@ -14,10 +14,10 @@ extern float gyroValue[3];
 
 // configure
 void BMI088_ACCEL_NS_L() {
-    HAL_GPIO_WritePin(Acc_GPIO_Port, Acc_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(ACC_GPIO_Port, ACC_Pin, GPIO_PIN_RESET);
 }
 void BMI088_ACCEL_NS_H() {
-    HAL_GPIO_WritePin(Acc_GPIO_Port, Acc_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(ACC_GPIO_Port, ACC_Pin, GPIO_PIN_SET);
 }
 void BMI088_GYRO_NS_L() {
     HAL_GPIO_WritePin(Gyro_GPIO_Port, Gyro_Pin, GPIO_PIN_RESET);
@@ -26,35 +26,33 @@ void BMI088_GYRO_NS_H() {
     HAL_GPIO_WritePin(Gyro_GPIO_Port, Gyro_Pin, GPIO_PIN_SET);
 }
 
-
 // read and write reg
 void BMI088_ReadReg_ACCEL(uint8_t reg, uint8_t *return_data, uint8_t length) {
-    reg = (reg & 0x7F) | 0x80;
-
     BMI088_ACCEL_NS_L();
-    HAL_SPI_Transmit(&hspi1, &reg, 1, HAL_MAX_DELAY);
+    reg = reg | 0x80;
+    HAL_SPI_Transmit(&hspi1, &reg, 1, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
-    HAL_SPI_Receive(&hspi1, return_data, length, HAL_MAX_DELAY);
+    HAL_SPI_Receive(&hspi1, return_data, 1, 1000);
+    while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
+    HAL_SPI_Receive(&hspi1, return_data, length, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
     BMI088_ACCEL_NS_H();
 }
 void BMI088_ReadReg_GYRO(uint8_t reg, uint8_t *return_data, uint8_t length) {
-    reg = (reg & 0x7F) | 0x80;
-
     BMI088_GYRO_NS_L();
-    HAL_SPI_Transmit(&hspi1, &reg, 1, HAL_MAX_DELAY);
+    reg = reg | 0x80;
+    HAL_SPI_Transmit(&hspi1, &reg, 1, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
-    HAL_SPI_Receive(&hspi1, return_data, length, HAL_MAX_DELAY);
+    HAL_SPI_Receive(&hspi1, return_data, length, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_RX);
     BMI088_GYRO_NS_H();
 }
 void BMI088_WriteReg(uint8_t reg, uint8_t write_data) {
-    reg = reg & 0x7F;
-
     BMI088_ACCEL_NS_L();
-    HAL_SPI_Transmit(&hspi1, &reg, 1, HAL_MAX_DELAY);
+    reg = reg | 0x00;
+    HAL_SPI_Transmit(&hspi1, &reg, 1, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
-    HAL_SPI_Transmit(&hspi1, &write_data, 1, HAL_MAX_DELAY);
+    HAL_SPI_Transmit(&hspi1, &write_data, 1, 1000);
     while (HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
     BMI088_ACCEL_NS_H();
 }
@@ -92,7 +90,6 @@ void BMI088_ReadAccelData(int16_t *accelData, float *accelValue) {
 
     uint8_t rangeReg;
     BMI088_ReadReg_ACCEL(0x41, &rangeReg, 1);
-
     float scaleFactor = 0.0f;
     switch (rangeReg) {
     case 0x00: scaleFactor = 3.0f / 32768.0f; break;
@@ -101,9 +98,9 @@ void BMI088_ReadAccelData(int16_t *accelData, float *accelValue) {
     case 0x03: scaleFactor = 24.0f / 32768.0f; break;
     }
 
-    accelValue[0] = accelData[0] * scaleFactor * 1000.0f;
-    accelValue[1] = accelData[1] * scaleFactor * 1000.0f;
-    accelValue[2] = accelData[2] * scaleFactor * 1000.0f;
+    accelValue[0] = accelData[0] * scaleFactor;
+    accelValue[1] = accelData[1] * scaleFactor;
+    accelValue[2] = accelData[2] * scaleFactor;
 }
 void BMI088_ReadGyroData(int16_t *gyroData, float *gyroValue) {
     uint8_t rawData[6];
