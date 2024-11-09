@@ -17,5 +17,5 @@ void BMI088_ACCEL_NS_L();
 void BMI088_GYRO_NS_L();
 void BMI088_ACCEL_NS_H();
 void BMI088_GYRO_NS_H();
-
+void BMI088_UserInit();
 #endif // IMU_H

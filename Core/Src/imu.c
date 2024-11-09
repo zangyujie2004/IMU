@@ -7,6 +7,7 @@
 #include "main.h"
 #include "imu.h"
 
+#define pi 3.1416
 extern int16_t accelData[3];
 extern float accelValue[3];
 extern int16_t gyroData[3];
@@ -14,10 +15,10 @@ extern float gyroValue[3];
 
 // configure
 void BMI088_ACCEL_NS_L() {
-    HAL_GPIO_WritePin(ACC_GPIO_Port, ACC_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Acc_GPIO_Port, Acc_Pin, GPIO_PIN_RESET);
 }
 void BMI088_ACCEL_NS_H() {
-    HAL_GPIO_WritePin(ACC_GPIO_Port, ACC_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(Acc_GPIO_Port, Acc_Pin, GPIO_PIN_SET);
 }
 void BMI088_GYRO_NS_L() {
     HAL_GPIO_WritePin(Gyro_GPIO_Port, Gyro_Pin, GPIO_PIN_RESET);
@@ -79,6 +80,15 @@ void BMI088_Init() {
     BMI088_ACCEL_NS_H();
 }
 
+//Task: read reg and return
+void BMI088_UserInit(uint8_t *return_data, uint8_t *range)
+{
+    BMI088_ReadReg_GYRO(0x00, return_data, 1);
+    BMI088_WriteReg(0x41, 0x02);
+    HAL_Delay(10);
+    BMI088_ReadReg_ACCEL(0x41, range, 1);
+}
+
 //read and combine data
 void BMI088_ReadAccelData(int16_t *accelData, float *accelValue) {
     uint8_t rawData[6];
@@ -110,8 +120,8 @@ void BMI088_ReadGyroData(int16_t *gyroData, float *gyroValue) {
     gyroData[1] = (rawData[3] << 8) | rawData[2];
     gyroData[2] = (rawData[5] << 8) | rawData[4];
 
-    float gyroScaleFactor = 2000.0f / 32768.0f; // 量程为 ±2000°/s
-    gyroValue[0] = gyroData[0] * gyroScaleFactor; // 单位为 °/s
+    float gyroScaleFactor = 2000.0f / 32768.0f * pi / 180; //Convert to radian system
+    gyroValue[0] = gyroData[0] * gyroScaleFactor;
     gyroValue[1] = gyroData[1] * gyroScaleFactor;
     gyroValue[2] = gyroData[2] * gyroScaleFactor;
 }

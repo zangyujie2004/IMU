@@ -18,9 +18,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "spi.h"
 #include "gpio.h"
+#include "ist8310.h"
 #include "imu.h"
+#include "stdbool.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -50,6 +53,9 @@ int16_t gyroData[3];
 float gyroValue[3];
 uint8_t return_data = 0x00;
 uint8_t range = 0x00;
+ist8310_data_t ist8310_data;
+ist8310_raw_data_t meg_data;
+bool InitCheck = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,13 +99,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
   BMI088_Init();
-
-  BMI088_ReadReg_GYRO(0x00, &return_data, 1);
-  BMI088_WriteReg(0x41, 0x02);
-	HAL_Delay(10);
-  BMI088_ReadReg_ACCEL(0x41, &range, 1);
+  BMI088_UserInit(&return_data, &range);
+  IST8310_INIT(&ist8310_data);
+  if(ist8310_data.meg_error == IST8310_NO_ERROR) InitCheck = true;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,6 +116,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
     BMI088_ReadAccelData(accelData, accelValue);
     BMI088_ReadGyroData(gyroData, gyroValue);
+    ReadIST8310Data(&meg_data);
     HAL_Delay(100);
   }
   /* USER CODE END 3 */
