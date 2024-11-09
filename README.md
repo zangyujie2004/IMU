@@ -12,7 +12,7 @@ When I first heard IMU for the first time in Professor Zhao Liu's ***Open Source
 
 At the time, we purchased an integrated IMU that included a **built-in microchip, communication protocols, and advanced algorithms. **However, our lack of understanding of the underlying principles and technical details **limited our ability to fully explore creative possibilities for the project**. This experience motivated me to dive deeper into the technical aspects and develop a more comprehensive understanding in my junior year. 
 
-<img src=".\Materials\F3.JPG" alt="F3" style="zoom:40%;" />
+<img src=".\Materials\F3.jpg" alt="F3" style="zoom:40%;" />
 
 ## 2 IMU
 
@@ -41,11 +41,11 @@ The IMU sensor is an electronic device used to calculate and reports an exact fo
 
 The fingers move closer to one electrode,**creating a change in capacitance from which acceleration can be derived.**
 
-<img src=".\Materials\F5.PNG" alt="F5" style="zoom:40%;" />
+<img src=".\Materials\F5.png" alt="F5" style="zoom:40%;" />
 
 *(ii) :fingners C:electrical capacity B:mass  (iii):mechanical springs*
 
-<img src=".\Materials\F6.PNG" alt="F6" style="zoom:60%;" />
+<img src=".\Materials\F6.png" alt="F6" style="zoom:60%;" />
 
 #### 2.2.2 Gyroscope
 
@@ -53,7 +53,7 @@ The fingers move closer to one electrode,**creating a change in capacitance from
 
 **In a typical Coriolis MEMS gyroscope**, a resonating proof mass is attached to its reference frame by mechanical springs. This reference frame is attached to an outer reference frame and isolated by** mechanical springs**. The proof mass is made to vibrate along a particular axis** – this is known as the drive axis. When the gyroscope is rotated, the Coriolis effect induces a secondary vibration along the axis perpendicular to the drive axis – this is known as the sense axis. As with many MEMS accelerometer sensors, the measurement is derived through electrical capacitance. **Rotation causes a change in the output of the differential capacitance between the inner and outer frames of reference. As the rate of rotation increases, so does the displacement of the proof mass, producing a signal proportional to the Coriolis force / sensed rotation.**
 
-<img src=".\Materials\F7.PNG" alt="F7" style="zoom:30%;" />
+<img src=".\Materials\F7.png" alt="F7" style="zoom:30%;" />
 
 *The springs (**A**) hold the proof mass (**B**) in position within the inner frame of reference (**C**). The inner reference frame is isolated from the outer frame of reference (**D**) also using springs (**E**). The inner frame of reference has several protruding fingers (**i**). The fixed electrodes (**ii**) make up the differential capacitors, with a protruding finger from the inner frame of reference between the capacitor electrodes. The gyroscope may be placed anywhere and at any angle on the rotating object , however, its sense axis must be parallel to the axis of rotation.*
 
@@ -61,7 +61,7 @@ The fingers move closer to one electrode,**creating a change in capacitance from
 
 **A magnetometer is used to detect and measure the strength and direction of the Earth’s magnetic fields in order to determine heading**. Magnetic heading derives north-related direction using a combination of the Earth’s magnetic field strength. Three magnetometers measure the magnetic field strength to provide a three-dimensional orientation, with respect to magnetic north. Note that magnetic north is not the same as “true” (geographical) north, which is the axis that the Earth revolves around.
 
-<img src=".\Materials\F8.PNG" alt="F7" style="zoom:40%;" />
+<img src=".\Materials\F8.png" alt="F7" style="zoom:40%;" />
 
 ### 2.3 Applications
 
@@ -73,7 +73,7 @@ The fingers move closer to one electrode,**creating a change in capacitance from
 - 6. **Sports: **Analyzes athletes’ movements to improve their performance or prevent injuries.
 - 7. **Virtual Reality (VR): **Tracks head and body movements in VR games and experiences to make them feel real.
 
-<img src=".\Materials\F9.PNG" alt="F9" style="zoom:40%;" />
+<img src=".\Materials\F9.png" alt="F9" style="zoom:40%;" />
 
 *Application in smart phone*
 
@@ -99,7 +99,7 @@ As **CAN** is designed for automotive and industrial environments, where noise i
 - **Full-Duplex**: SPI allows simultaneous data transfer in both directions (master to slave and slave to master).
 - **Speed**: SPI is much faster than I2C, typically running at speeds of up to 10 Mbps or more, depending on the devices and system.
 
-<img src=".\Materials\F11.JPG" alt="F9" style="zoom:50%;" />
+<img src=".\Materials\F11.jpg" alt="F9" style="zoom:50%;" />
 
 ### 2.2 I2C (Inter-Integrated Circuit)
 
@@ -115,7 +115,7 @@ I2C is a two-wire serial communication protocol used to connect low-speed device
 - **Multiple Devices**: Multiple devices can share the same bus, and they are addressed by their unique address. However, the total number of devices is limited by the available address space (usually 127 for 7-bit addresses).
 - **Speed**: Standard I2C runs at speeds of up to 100 kbps (Standard Mode), but higher speeds of up to 3.4 Mbps are possible with High-Speed Mode.
 
-<img src=".\Materials\F12.PNG" alt="F9" style="zoom:30%;" />
+<img src=".\Materials\F12.png" alt="F9" style="zoom:30%;" />
 
 ## 3 Practice
 
@@ -123,9 +123,9 @@ I2C is a two-wire serial communication protocol used to connect low-speed device
 
 For my practice, I am using a **DJI-provided C board** equipped with the **IST8310 magnetometer** and the **MPU6500 IMU**. You've successfully implemented code to measure data from both sensors, effectively initializing and reading magnetometer data from the IST8310. The setup allows for sensor data acquisition that could be used in applications requiring **orientation or position tracking.**
 
-<img src=".\Materials\F10.PNG" alt="F9" style="zoom:30%;" />
+<img src=".\Materials\F10.png" alt="F9" style="zoom:30%;" />
 
-<img src=".\Materials\F1.PNG" alt="F9" style="zoom:60%;" />
+<img src=".\Materials\F1.png" alt="F9" style="zoom:60%;" />
 
 ### 3.2 Code
 
